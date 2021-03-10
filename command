@@ -181,4 +181,74 @@ docker exec -it cid /bin/bash
 cat /var/jenkins_home/secrets/initialAdminPassword
 
 
+***********
+class -4
+**********
+Mount point
+====
+- store data in local and share b/w host machin and container 
+
+docker run -itd -v /opt/:/var/common centos
+/opt/batch11 - path of host m/c
+/var/common   - container 
+
+docker exec -it 37571e693f9b /bin/bash
+
+docker inspect contId
+- check mounts
+
+=> create new cotainer from exiting container
+=> so that new container should have same data as container1
+docker run --help | grep volume
+
+docker run -itd --volumes-from <from contid> centos
+
+docker run -itd --volumes-from 37571e693f9b centos
+
+docker exec -it 44032bfa8c42 /bin/bash
+
+=> If we delete data from cont2 then data will be delete from
+contid1 and also volume host mount path
+
+-> 
+dis-adv
+-------
+- people can access host point may delete the data
+- data deleted from host then we cannot 
+
+volume
+--------
+
+docker volume
+
+
+classs5
+=======
+
+dockerfile
+===========
+- provide the instructions for creating image
+- build a image - image created
+- we run this image so that container will be created
+
+-> file name should be always dockerfile
+
+
+FROM centos
+MAINTAINER vijay <vijayb@gmail.com>
+# This dockerfile is created for creating centos image
+RUN yum update -y
+
+# Install git
+RUN yum install git -y
+RUN mkdir /opt/gitrepo
+RUN cd /opt/gitrepo && git clone https://github.com/vijayghub/web-app.git
+RUN yum install wget -y
+
+#Install Maven
+RUN mkdir /opt/maven
+RUN cd /opt/maven && wget https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+RUN cd /opt/maven && tar -xvf /opt/maven/apache-maven-3.6.3-bin.tar.gz
+
+
 
